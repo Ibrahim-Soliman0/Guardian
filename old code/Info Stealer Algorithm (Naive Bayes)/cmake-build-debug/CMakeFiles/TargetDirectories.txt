@@ -1,5 +1,0 @@
-D:/Personal/Graduation Project/Source Code/Info Stealer Algorithm (Naive Bayes)/cmake-build-debug/CMakeFiles/parser.dir
-D:/Personal/Graduation Project/Source Code/Info Stealer Algorithm (Naive Bayes)/cmake-build-debug/CMakeFiles/calculation_algorithm.dir
-D:/Personal/Graduation Project/Source Code/Info Stealer Algorithm (Naive Bayes)/cmake-build-debug/CMakeFiles/backup.dir
-D:/Personal/Graduation Project/Source Code/Info Stealer Algorithm (Naive Bayes)/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/Personal/Graduation Project/Source Code/Info Stealer Algorithm (Naive Bayes)/cmake-build-debug/CMakeFiles/rebuild_cache.dir

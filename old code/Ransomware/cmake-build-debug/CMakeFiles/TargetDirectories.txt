@@ -1,3 +1,0 @@
-D:/Personal/Graduation Project/Source Code/Ransomware/cmake-build-debug/CMakeFiles/Ransomware.dir
-D:/Personal/Graduation Project/Source Code/Ransomware/cmake-build-debug/CMakeFiles/edit_cache.dir
-D:/Personal/Graduation Project/Source Code/Ransomware/cmake-build-debug/CMakeFiles/rebuild_cache.dir
