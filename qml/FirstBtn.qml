@@ -10,17 +10,18 @@ Button {
 
     flat: true
 
+    signal clickedToPython // Signal to notify Python
 
-    QtObject{
+    QtObject {
         id: internal
 
-        property var dynamicColor: if(firstBtn.down){
+        property var dynamicColor: if (firstBtn.down) {
                                        firstBtn.down ? colorPressed : colorDefault
                                    } else {
                                        firstBtn.hovered ? colorMouseOver : colorDefault
                                    }
 
-        property var dynamicSize: if(firstBtn.hovered){
+        property var dynamicSize: if (firstBtn.hovered) {
                                        firstBtn.hovered ? 15 : 10
                                    } else {
                                        10
@@ -31,21 +32,24 @@ Button {
     implicitWidth: 150
     implicitHeight: 70
 
-    background: Rectangle{
+    background: Rectangle {
         radius: internal.dynamicSize
         color: internal.dynamicColor
     }
 
-    contentItem: Item{
+    contentItem: Item {
         id: item1
-        Text{
+        Text {
             id: textBtn
             text: firstBtn.text
             anchors.verticalCenter: parent.verticalCenter
             anchors.horizontalCenter: parent.horizontalCenter
             color: "#ffffff"
         }
-
     }
 
+    onClicked: {
+        console.log("Signal clickedToPython emitted")
+        clickedToPython() // Emit signal when clicked
+    }
 }

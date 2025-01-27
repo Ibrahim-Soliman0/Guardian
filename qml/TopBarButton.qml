@@ -20,33 +20,39 @@ Button{
                                        btnTopBar.hovered ? btnColorMouseOver : btnColorDefault
                                    }
 
+        property var dynamicOpacity: if(btnTopBar.down){
+                                       btnTopBar.down ? 1 : 0
+                                   } else {
+                                       btnTopBar.hovered ? 1 : 0
+                                   }
     }
 
     width: 35
     height: 35
 
+    Image {
+        id: iconBtn
+        source: btnIconSource
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.horizontalCenter: parent.horizontalCenter
+        height: 20
+        width: 20
+        fillMode: Image.PreserveAspectFit
+        antialiasing: false
+    }
+
+    ColorOverlay{
+        anchors.fill: iconBtn
+        source: iconBtn
+        antialiasing: false
+    }
+
     background: Rectangle{
         id: bgBtn
         color: internal.dynamicColor
-
-        Image {
-            id: iconBtn
-            source: btnIconSource
-            anchors.verticalCenter: parent.verticalCenter
-            anchors.horizontalCenter: parent.horizontalCenter
-            height: 20
-            width: 20
-            visible: false
-            fillMode: Image.PreserveAspectFit
-            antialiasing: false
-        }
-
-        ColorOverlay{
-            anchors.fill: iconBtn
-            source: iconBtn
-            antialiasing: false
-        }
+        opacity: internal.dynamicOpacity
     }
+
 
     onClicked: window.close()
 }
