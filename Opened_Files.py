@@ -1,5 +1,5 @@
 import shutil
-import sys, os
+import sys, os, subprocess
 import frida
 import psutil
 import time
@@ -18,7 +18,7 @@ last_access_time = {}
 process_sessions = {}
 lock = threading.Lock()
 
-log_file_path = "process_monitor_log.txt"
+log_file_path = r"C:\Windows\System32\AntiMalware\input.txt"
 
 log_file = open(log_file_path, "w", encoding="utf-8")
 
@@ -129,6 +129,23 @@ Interceptor.attach(Module.getExportByName("kernel32.dll", "CopyFileA"), {
     }
 });
 
+Interceptor.attach(Module.getExportByName("kernel32.dll", "MoveFileW"), {
+    onEnter: function (args) {
+        var newFileNamePtr = args[1];
+
+        if (!newFileNamePtr.isNull()) {
+            var newFileName = Memory.readUtf16String(newFileNamePtr);
+
+            fileNames.push(`${processName} >> ${newFileName}`);
+
+            if (fileNames.length >= maxBatchSize) {
+                send(fileNames.join("\\n"));
+                fileNames = [];
+            }
+        }
+    }
+});
+
 rpc.exports = {
     flush: function () {
         if (fileNames.length > 0) {
@@ -143,10 +160,8 @@ rpc.exports = {
 def restart_script():
     print("Restarting Frida script...")
     try:
-        # Perform cleanup tasks before restarting, if necessary
         delete_frida_Temp()
 
-        # Restart the script using the same Python interpreter
         python = sys.executable
         os.execv(python, [python] + sys.argv)
     except Exception as e:
@@ -319,6 +334,26 @@ def check_inactivity(interval=5, timeout=60):
 def hook_in_process(pid, process_name):
     hook_process(pid, process_name)
 
+def parse_and_calc():
+    while True:
+        time.sleep(30)
+        print("Parse")
+        subprocess.Popen(r"C:\Windows\System32\AntiMalware\parser.exe")
+        time.sleep(2)
+        print("Make Calcs")
+        subprocess.Popen(r"C:\Windows\System32\AntiMalware\infodetection.exe")
+        time.sleep(2)
+        print("Done")
+
+def ransom():
+    while True:
+        time.sleep(5)
+        print("Ransom")
+        subprocess.Popen(r"C:\Windows\System32\AntiMalware\parser.exe")
+        time.sleep(2)
+        print("Make Calcs")
+        subprocess.Popen(r"C:\Windows\System32\AntiMalware\Ransomware.exe")
+        time.sleep(1)
 
 def process_hook_manager():
     global active_hooks
@@ -359,7 +394,12 @@ def process_hook_manager():
 if __name__ == "__main__":
     freeze_support()
     set_start_method("spawn")
-    delete_frida_Temp()
+    try:
+        delete_frida_Temp()
+    except:
+        pass
+    threading.Thread(target=parse_and_calc, daemon=True).start()
+    threading.Thread(target=ransom, daemon=True).start()
 
     try:
         print("Starting process monitor...")
