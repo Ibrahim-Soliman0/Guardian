@@ -57,7 +57,6 @@ def load_main_window(engine, ctx):
         print("Error loading settings.json:", e)
         userSettings = {}
     engine.rootContext().setContextProperty("userSettings", userSettings)
-    # Create SettingsManager without trayIcon first.
     settingsManager = SettingsManager(ctx, parent=engine)
     engine.rootContext().setContextProperty("settingsManager", settingsManager)
     main_qml_file = QUrl.fromLocalFile(r"qml\App.qml")
@@ -80,7 +79,6 @@ if __name__ == "__main__":
     app = QApplication(sys.argv)
     engine = QQmlApplicationEngine()
     ctx = engine.rootContext()
-    # Load splash screen QML.
     splash_screen_url = QUrl.fromLocalFile(r"qml\SplashScreen.qml")
     engine.load(splash_screen_url)
     splash_objects = engine.rootObjects()
