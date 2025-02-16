@@ -1,6 +1,6 @@
 {
-    "isMonitoringActive": 0,
+    "isMonitoringActive": 1,
     "isActiveAutoStart": 0,
     "isActiveMinimizedInSystemTray": 0,
-    "isActiveSendData": 1
+    "isActiveSendData": 0
 }
