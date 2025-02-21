@@ -3,6 +3,15 @@ from PySide6.QtGui import QIcon
 import json, os, sys
 import winreg
 
+class AlertHandler(QObject):
+    showAlert = Signal()
+
+    @Slot()
+    def triggerAlert(self):
+        self.showAlert.emit()
+
+
+
 class SettingsManager(QObject):
     # Signal to indicate a setting has changed (key, new value)
     settingsChanged = Signal(str, object)

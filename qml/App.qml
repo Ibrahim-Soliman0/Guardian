@@ -4,6 +4,7 @@ import QtQuick.Window
 
 Window {
     id: root
+    property alias stackview: stackview
     visible: true
     width: 1000
     height: 700

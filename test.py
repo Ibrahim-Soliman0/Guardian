@@ -5,8 +5,7 @@ from PySide6.QtCore import QUrl, QTimer
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtWidgets import QApplication, QSystemTrayIcon, QMenu
 from PySide6.QtGui import QIcon, QAction
-from SettingsManager import SettingsManager
-
+from SettingsManager import SettingsManager, AlertHandler
 
 def create_tray_icon(main_window, settingsManager):
     tray_icon = QSystemTrayIcon(QIcon("icons_accent/OFF_Shield.svg"), main_window)
@@ -44,9 +43,7 @@ def create_tray_icon(main_window, settingsManager):
             action_toggle_monitoring.setText("Disable Monitoring" if value == 1 else "Enable Monitoring")
 
     settingsManager.settingsChanged.connect(updateTrayAction)
-
     settingsManager.trayIcon = tray_icon
-
 
 def load_main_window(engine, ctx):
     print("Loading main window...")
@@ -65,7 +62,8 @@ def load_main_window(engine, ctx):
     if not root_objects:
         print("Error: Could not load App.qml")
         sys.exit(-1)
-    main_window = root_objects[1]
+
+    main_window = root_objects[-1]
     if int(userSettings.get("isActiveMinimizedInSystemTray", 0)) == 1:
         main_window.hide()
         print("Starting minimized in system tray.")
@@ -73,21 +71,42 @@ def load_main_window(engine, ctx):
         main_window.show()
         print("Starting normally.")
     create_tray_icon(main_window, settingsManager)
-
+    return main_window
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     engine = QQmlApplicationEngine()
     ctx = engine.rootContext()
+
+    alertHandler = AlertHandler()
+    engine.rootContext().setContextProperty("alertHandler", alertHandler)
+
+    alert_qml_url = QUrl.fromLocalFile(r"qml\Alert.qml")
+    engine.load(alert_qml_url)
+    alert_objects = engine.rootObjects()
+    if not alert_objects:
+        print("Error: Could not load Alert.qml")
+        sys.exit(-1)
+    alert_window = alert_objects[0]
+    alert_window.setProperty("visible", False)
+
     splash_screen_url = QUrl.fromLocalFile(r"qml\SplashScreen.qml")
     engine.load(splash_screen_url)
     splash_objects = engine.rootObjects()
     if not splash_objects:
         print("Error: Could not load SplashScreen.qml")
         sys.exit(-1)
-    splash_screen = splash_objects[0]
-    QTimer.singleShot(1000, lambda: [
-        splash_screen.setProperty("visible", False),
-        load_main_window(engine, ctx)
-    ])
+    splash_screen = splash_objects[-1]
+    splash_screen.setProperty("visible", True)
+    print("Splash screen loaded.")
+
+    def start_main():
+        splash_screen.setProperty("visible", False)
+        main_window = load_main_window(engine, ctx)
+        alert_window.setProperty("mainWindow", main_window)
+
+    QTimer.singleShot(2000, start_main)
+
+    QTimer.singleShot(7000, lambda: alertHandler.triggerAlert())
+
     sys.exit(app.exec())
