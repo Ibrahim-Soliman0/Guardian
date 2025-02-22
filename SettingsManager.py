@@ -1,6 +1,6 @@
 from PySide6.QtCore import QObject, Slot, Signal
 from PySide6.QtGui import QIcon
-import json, os, sys
+import json, os, sys, subprocess
 import winreg
 
 class AlertHandler(QObject):
@@ -13,7 +13,6 @@ class AlertHandler(QObject):
 
 
 class SettingsManager(QObject):
-    # Signal to indicate a setting has changed (key, new value)
     settingsChanged = Signal(str, object)
 
     def __init__(self, context, trayIcon=None, parent=None):
@@ -100,11 +99,16 @@ class SettingsManager(QObject):
         print("Monitoring enabled.")
         if self.trayIcon:
             self.trayIcon.setIcon(QIcon("icons_accent/ON_Shield.svg"))
+        global anti
+        anti = subprocess.Popen([sys.executable, "Opened_Files.py"])
 
     def disableMonitoring(self):
+        global anti
         print("Monitoring disabled.")
         if self.trayIcon:
             self.trayIcon.setIcon(QIcon("icons_accent/OFF_Shield.svg"))
+        anti.terminate()
+        anti.wait()
 
     def addToStartup(self):
         exe_path = os.path.realpath(sys.argv[0])

@@ -5,15 +5,16 @@ import Qt5Compat.GraphicalEffects
 
 Window {
     id: alert
-    visible: false
+    visible: true
     flags: Qt.Dialog | Qt.WindowStaysOnTopHint | Qt.FramelessWindowHint
     modality: Qt.ApplicationModal
     color: "transparent"
     width: 750
     height: 550
 
-    property var mainWindow
+    title: "Critical Alert"
 
+    property var mainWindow
 
     property var dragStart: Qt.point(0, 0)
 
@@ -145,7 +146,7 @@ Window {
                 ac: "Close"
                 textColorMouseOver: "#ff0000"
                 anchors.verticalCenterOffset: 212
-                anchors.horizontalCenterOffset: -260
+                anchors.horizontalCenterOffset: -271
             }
         }
     }
