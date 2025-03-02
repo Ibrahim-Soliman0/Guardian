@@ -126,7 +126,7 @@ class SettingsManager(QObject):
         reg_path = r"Software\Microsoft\Windows\CurrentVersion\Run"
         try:
             key = winreg.OpenKey(winreg.HKEY_CURRENT_USER, reg_path, 0, winreg.KEY_WRITE)
-            winreg.DeleteValue(key, "MyApp")
+            winreg.DeleteValue(key, "AntiMalware")
             winreg.CloseKey(key)
             print("Removed from startup successfully!")
         except FileNotFoundError:

@@ -6,7 +6,11 @@ import time
 import threading
 import queue
 import tempfile
+import re
+import stat
 from multiprocessing import Pool, freeze_support, set_start_method
+from PySide6.QtCore import QCoreApplication, QTimer
+from PySide6.QtNetwork import QLocalSocket
 
 MAX_THREADS = 30
 MAX_PROCESSES = 3
@@ -17,6 +21,7 @@ active_hooks = set()
 last_access_time = {}
 process_sessions = {}
 lock = threading.Lock()
+parsinglock = threading.Lock()
 
 log_file_path = r"C:\Windows\System32\AntiMalware\input.txt"
 
@@ -27,7 +32,7 @@ system_process_list = [
     "frida-helper-x86.exe", "frida-helper-x86_64.exe", "dllhost.exe",
     "ctfmon.exe", "conhost.exe", "runtimebroker.exe", "wmiprvse.exe",
     "taskmgr.exe", "werfault.exe", "explorer.exe", "taskhostw.exe",
-    "searchprotocolhost.exe"
+    "searchprotocolhost.exe", "Ransomware.exe", "parser.exe"
 ]
 
 hook_script = """
@@ -156,6 +161,90 @@ rpc.exports = {
 };
 """
 
+def getProcessByName(process_name):
+    for proc in psutil.process_iter(['name']):
+        try:
+            if proc.info['name'] and proc.info['name'].lower() == process_name.lower():
+                return proc
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            continue
+    return None
+
+def parseInfoFile():
+    pattern = re.compile(r"^(\S+\.exe)\s+\d+$", re.IGNORECASE)
+
+    processes = []
+
+    with open(r"C:\Windows\System32\AntiMalware\output.txt", "r") as f:
+        for line in f:
+            line = line.strip()
+            match = pattern.match(line)
+            if match:
+                processes.append(match.group(1))
+
+    if processes:
+        print(processes)
+        terminateAndRemove(str(processes[0]), 0)
+
+    open(r"C:\Windows\System32\AntiMalware\output.txt", "w")
+
+
+def parseRansomFile():
+    with open(r"C:\Windows\System32\AntiMalware\ransom.txt", "r") as f:
+        lines = f.readlines()
+        if len(lines) >= 2:
+            second_line = lines[1].strip()
+            print(second_line)
+            terminateAndRemove(str(second_line), 1)
+
+        open(r"C:\Windows\System32\AntiMalware\ransom.txt", "w")
+
+def terminateAndRemove(name, type):
+    proc = getProcessByName(name)
+    if not proc:
+        print("Process not found")
+        return
+
+    try:
+        exe_path = proc.exe()
+        print(f"Process executable path: {exe_path}")
+
+        proc.kill()
+        try:
+            proc.wait(timeout=5)
+        except psutil.TimeoutExpired:
+            print("Process did not terminate within timeout.")
+        print("Process killed")
+
+        time.sleep(1)
+
+        if os.path.exists(exe_path):
+            try:
+                os.chmod(exe_path, stat.S_IWRITE)
+            except Exception as e:
+                print(f"Could not change file permissions: {e}")
+
+            try:
+                os.remove(exe_path)
+                print(f"Removed executable: {exe_path}")
+            except Exception as e:
+                print(f"Error removing file: {e}")
+        else:
+            print("Executable file not found.")
+
+        socket = QLocalSocket()
+        socket.connectToServer("AlertTriggerServer")
+        if socket.waitForConnected(1000):
+            socket.write(b"trigger_alert")
+            socket.flush()
+            socket.disconnectFromServer()
+            print("Sent trigger_alert")
+        else:
+            print("Could not connect to AlertTriggerServer")
+        QTimer.singleShot(500, app.quit)
+
+    except Exception as e:
+        print(f"An error occurred: {e}")
 
 def restart_script():
     print("Restarting Frida script...")
@@ -337,23 +426,27 @@ def hook_in_process(pid, process_name):
 def parse_and_calc():
     while True:
         time.sleep(30)
-        print("Parse")
-        subprocess.Popen(r"C:\Windows\System32\AntiMalware\parser.exe")
-        time.sleep(2)
-        print("Make Calcs")
-        subprocess.Popen(r"C:\Windows\System32\AntiMalware\infodetection.exe")
-        time.sleep(2)
-        print("Done")
+        with parsinglock:
+            print("Parse")
+            p = subprocess.Popen(r"C:\Windows\System32\AntiMalware\parser.exe")
+            p.wait()
+            print("Make Calcs")
+            p = subprocess.Popen(r"C:\Windows\System32\AntiMalware\infodetection.exe")
+            p.wait()
+            print("Done")
+            parseInfoFile()
 
 def ransom():
     while True:
-        time.sleep(5)
-        print("Ransom")
-        subprocess.Popen(r"C:\Windows\System32\AntiMalware\parser.exe")
-        time.sleep(2)
-        print("Make Calcs")
-        subprocess.Popen(r"C:\Windows\System32\AntiMalware\Ransomware.exe")
-        time.sleep(1)
+        time.sleep(3)
+        with parsinglock:
+            print("Ransom")
+            p = subprocess.Popen(r"C:\Windows\System32\AntiMalware\parser.exe")
+            p.wait()
+            print("Make Calcs")
+            p = subprocess.Popen(r"C:\Windows\System32\AntiMalware\Ransomware.exe")
+            p.wait()
+            parseRansomFile()
 
 def process_hook_manager():
     global active_hooks
@@ -392,6 +485,7 @@ def process_hook_manager():
 
 
 if __name__ == "__main__":
+    app = QCoreApplication(sys.argv)
     freeze_support()
     set_start_method("spawn")
     try:

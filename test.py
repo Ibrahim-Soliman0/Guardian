@@ -2,6 +2,7 @@ import sys
 import json
 import os, subprocess
 from PySide6.QtCore import QUrl, QTimer
+from PySide6.QtNetwork import QLocalServer
 from PySide6.QtQml import QQmlApplicationEngine
 from PySide6.QtWidgets import QApplication, QSystemTrayIcon, QMenu
 from PySide6.QtGui import QIcon, QAction
@@ -56,6 +57,7 @@ def load_main_window(engine, ctx):
     engine.rootContext().setContextProperty("userSettings", userSettings)
     settingsManager = SettingsManager(ctx, parent=engine)
     engine.rootContext().setContextProperty("settingsManager", settingsManager)
+    settingsManager.applySettings()
     main_qml_file = QUrl.fromLocalFile(r"qml\App.qml")
     engine.load(main_qml_file)
     root_objects = engine.rootObjects()
@@ -72,6 +74,27 @@ def load_main_window(engine, ctx):
         print("Starting normally.")
     create_tray_icon(main_window, settingsManager)
     return main_window
+
+def setup_local_server():
+    global localServer
+    localServer = QLocalServer()
+    QLocalServer.removeServer("AlertTriggerServer")
+    if not localServer.listen("AlertTriggerServer"):
+        print("Unable to start local server")
+        return
+    localServer.newConnection.connect(handle_new_connection)
+    print("Local server listening on 'AlertTriggerServer'.")
+
+def handle_new_connection():
+    socket = localServer.nextPendingConnection()
+    socket.readyRead.connect(lambda: process_socket_message(socket))
+
+def process_socket_message(socket):
+    message = socket.readAll().data().decode().strip()
+    if message == "trigger_alert":
+        print("Received trigger_alert message.")
+        alertHandler.triggerAlert()
+    socket.disconnectFromServer()
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -107,6 +130,6 @@ if __name__ == "__main__":
 
     QTimer.singleShot(2000, start_main)
 
-    QTimer.singleShot(7000, lambda: alertHandler.triggerAlert())
+    setup_local_server()
 
     sys.exit(app.exec())
