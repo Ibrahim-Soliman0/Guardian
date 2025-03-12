@@ -13,6 +13,9 @@ Rectangle {
     property int isActiveAutoStart: userSettings.isActiveAutoStart
     property int isActiveMinimizedInSystemTray: userSettings.isActiveMinimizedInSystemTray
     property int isActiveSendData: userSettings.isActiveSendData
+    property int maximumLogFileSize: userSettings.MaximumLogFileSize
+    property int ransomInterval: userSettings.RansomInterval
+    property int infoInterval: userSettings.InfoInterval
 
     Flickable {
         id: flickable
@@ -54,7 +57,7 @@ Rectangle {
                         width: 70
                         checked: isActiveAutoStart
                         settingKey: "isActiveAutoStart"
-                        x: parent.width - autoStartSwitch.width - 10
+                        x: parent.width - autoStartSwitch.width - 90
                         y: parent.height/2 - autoStartSwitch.height /2
                         }
                 }
@@ -86,7 +89,7 @@ Rectangle {
                         width: 70
                         checked: isActiveMinimizedInSystemTray
                         settingKey: "isActiveMinimizedInSystemTray"
-                        x: parent.width - startMinimizedSwitch.width - 10
+                        x: parent.width - startMinimizedSwitch.width - 90
                         y: parent.height/2 - startMinimizedSwitch.height /2
                     }
                 }
@@ -118,11 +121,107 @@ Rectangle {
                         width: 70
                         checked: isActiveSendData
                         settingKey: "isActiveSendData"
-                        x: parent.width - startMinimizedSwitch.width - 10
-                        y: parent.height/2 - startMinimizedSwitch.height /2
+                        x: parent.width - sendData.width - 90
+                        y: parent.height/2 - sendData.height /2
                     }
                 }
             } // End Start send data
+
+            // Start storage slider block
+            Rectangle {
+                width: parent.width - 30  // Reduce width for left/right padding
+                height: 50
+                radius: 10
+                color: root.menuColor
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Row {
+                    width: parent.width
+                    anchors.fill: parent
+                    spacing: 10
+
+                    Text {
+                        text: " Maximum log file size (in MB)"
+                        font.pixelSize: 25
+                        color: root.textColor
+                        y: parent.height/2 - storageSlider.height /2
+                    }
+
+                    Customslider{
+                        id: storageSlider
+                        from: 10
+                        to: 500
+                        stepSize: 1
+                        x: parent.width - storageSlider.width
+                        y: parent.height/2 - storageSlider.height /2
+                        settingKey: "MaximumLogFileSize"
+                    }
+                }
+            } // End storage slider
+
+            // Start ransom slider block
+            Rectangle {
+                width: parent.width - 30  // Reduce width for left/right padding
+                height: 50
+                radius: 10
+                color: root.menuColor
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Row {
+                    width: parent.width
+                    anchors.fill: parent
+                    spacing: 10
+
+                    Text {
+                        text: " Interval between each ransomware check (in seconds)"
+                        font.pixelSize: 22
+                        color: root.textColor
+                        y: parent.height/2 - ransomSlider.height /2
+                    }
+
+                    Customslider{
+                        id: ransomSlider
+                        from: 3
+                        to: 10
+                        stepSize: 1
+                        x: parent.width - ransomSlider.width
+                        y: parent.height/2 - ransomSlider.height /2
+                        settingKey: "RansomInterval"
+                    }
+                }
+            } // End ransom slider
+
+            // Start info slider block
+            Rectangle {
+                width: parent.width - 30  // Reduce width for left/right padding
+                height: 50
+                radius: 10
+                color: root.menuColor
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Row {
+                    width: parent.width
+                    anchors.fill: parent
+                    spacing: 10
+
+                    Text {
+                        text: " Interval between each info stealer check (in seconds)"
+                        font.pixelSize: 22
+                        color: root.textColor
+                        y: parent.height/2 - infoSlider.height /2
+                    }
+
+                    Customslider{
+                        id: infoSlider
+                        from: 10
+                        to: 60
+                        stepSize: 1
+                        x: parent.width - infoSlider.width
+                        y: parent.height/2 - infoSlider.height /2
+                        settingKey: "InfoInterval"
+                    }
+                }
+            } // End info slider
 
             // Add bottom padding using an Item
             Item { width: 1; height: 5 }

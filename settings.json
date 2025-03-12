@@ -1,6 +1,9 @@
 {
-    "isMonitoringActive": 1,
+    "isMonitoringActive": 0,
     "isActiveAutoStart": 0,
     "isActiveMinimizedInSystemTray": 0,
-    "isActiveSendData": 0
+    "isActiveSendData": 0,
+    "MaximumLogFileSize": 231,
+    "RansomInterval": 10,
+    "InfoInterval": 26
 }

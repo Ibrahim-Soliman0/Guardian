@@ -30,7 +30,7 @@ def create_tray_icon(main_window, settingsManager):
     action_toggle_monitoring.triggered.connect(toggle_monitoring)
     tray_menu.addAction(action_toggle_monitoring)
 
-    action_quit = QAction(QIcon("icons_accent/exit.png"), "Quit", tray_menu)
+    action_quit = QAction(QIcon("icons_accent/exit.png"), "Exit", tray_menu)
     action_quit.triggered.connect(lambda: QApplication.instance().quit())
     tray_menu.addAction(action_quit)
 
@@ -113,18 +113,18 @@ if __name__ == "__main__":
     alert_window = alert_objects[0]
     alert_window.setProperty("visible", False)
 
-    splash_screen_url = QUrl.fromLocalFile(r"qml\SplashScreen.qml")
-    engine.load(splash_screen_url)
-    splash_objects = engine.rootObjects()
-    if not splash_objects:
-        print("Error: Could not load SplashScreen.qml")
-        sys.exit(-1)
-    splash_screen = splash_objects[-1]
-    splash_screen.setProperty("visible", True)
-    print("Splash screen loaded.")
+    # splash_screen_url = QUrl.fromLocalFile(r"qml\SplashScreen.qml")
+    # engine.load(splash_screen_url)
+    # splash_objects = engine.rootObjects()
+    # if not splash_objects:
+    #     print("Error: Could not load SplashScreen.qml")
+    #     sys.exit(-1)
+    # splash_screen = splash_objects[-1]
+    # splash_screen.setProperty("visible", True)
+    # print("Splash screen loaded.")
 
     def start_main():
-        splash_screen.setProperty("visible", False)
+        #splash_screen.setProperty("visible", False)
         main_window = load_main_window(engine, ctx)
         alert_window.setProperty("mainWindow", main_window)
 

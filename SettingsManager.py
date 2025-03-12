@@ -51,25 +51,7 @@ class SettingsManager(QObject):
                     else:
                         self.disableSendData()
             else:
-                if self._settings.get("isMonitoringActive", 0) == 1:
-                    self.enableMonitoring()
-                else:
-                    self.disableMonitoring()
-
-                if self._settings.get("isActiveAutoStart", 0) == 1:
-                    self.enableAutoStart()
-                else:
-                    self.disableAutoStart()
-
-                if self._settings.get("isActiveMinimizedInSystemTray", 0) == 1:
-                    self.enableMinimizeToTray()
-                else:
-                    self.disableMinimizeToTray()
-
-                if self._settings.get("isActiveSendData", 0) == 1:
-                    self.enableSendData()
-                else:
-                    self.disableSendData()
+                pass
 
         except Exception as e:
             print("Error applying settings:", e)
@@ -107,8 +89,11 @@ class SettingsManager(QObject):
         print("Monitoring disabled.")
         if self.trayIcon:
             self.trayIcon.setIcon(QIcon("icons_accent/OFF_Shield.svg"))
-        anti.terminate()
-        anti.wait()
+        try:
+            anti.terminate()
+            anti.wait()
+        except:
+            pass
 
     def addToStartup(self):
         exe_path = os.path.realpath(sys.argv[0])
