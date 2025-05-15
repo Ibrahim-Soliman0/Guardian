@@ -16,9 +16,12 @@ Window {
 
     property var mainWindow
 
+    property string currentMalwareType: "Unknown"
+
     property var dragStart: Qt.point(0, 0)
 
-    function openAlert() {
+    function openAlert(malwareTypeFromSignal) {
+        currentMalwareType = malwareTypeFromSignal || "Unknown"; // Update malware type
         visible = true
         forceActiveFocus()
         raise()
@@ -30,8 +33,11 @@ Window {
 
     Connections {
         target: alertHandler
-        onShowAlert: {
-            alert.openAlert();
+        function onShowAlertWithType(malwareType) {
+            alert.openAlert(malwareType);
+        }
+        function onShowAlert() {
+            alert.openAlert("Unknown");
         }
     }
 
@@ -109,7 +115,15 @@ Window {
                 height: 208
                 textFormat: Text.RichText
                 color: "#ffffff"
-                text: "Suspicious activity detected!<br><br>Your device may be compromised by<br>a data-stealing malware.<br><br> The attack has been halted and<br>removed upon detection.<br><br>Tap <span style='color:#8698fc;'>Report</span> for more details."
+                text: {
+                    if (alert.currentMalwareType.toLowerCase() === "infostealer") {
+                        return "Suspicious activity detected!<br><br>Your device may be compromised by<br>a data-stealing malware (Infostealer).<br><br> The attack has been halted and<br>removed upon detection.<br><br>Tap <span style='color:#8698fc;'>Report</span> for more details.";
+                    } else if (alert.currentMalwareType.toLowerCase() === "ransomware") {
+                        return "Critical threat detected!<br><br>Your device was targeted by<br>Ransomware.<br><br> The malicious process has been terminated<br>and the file removed.<br><br>Tap <span style='color:#8698fc;'>Report</span> for more details.";
+                    } else { // Default or Unknown
+                        return "Suspicious activity detected!<br><br>Your device may be compromised by<br>an unknown threat.<br><br> The attack has been halted and<br>removed upon detection.<br><br>Tap <span style='color:#8698fc;'>Report</span> for more details.";
+                    }
+                }
                 font.pixelSize: 27
                 verticalAlignment: Text.AlignVCenter
                 font.styleName: "Bold"

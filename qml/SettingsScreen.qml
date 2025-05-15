@@ -127,6 +127,38 @@ Rectangle {
                 }
             } // End Start send data
 
+            // Start send data block
+            Rectangle {
+                width: parent.width - 30  // Reduce width for left/right padding
+                height: 50
+                radius: 10
+                color: root.menuColor
+                anchors.horizontalCenter: parent.horizontalCenter
+
+                Row {
+                    width: parent.width
+                    anchors.fill: parent
+                    spacing: 10
+
+                    Text {
+                        text: " Auto update the application"
+                        font.pixelSize: 25
+                        color: root.textColor
+                        y: parent.height/2 - startMinimizedSwitch.height /2
+                    }
+
+                    Customswitch {
+                        id: autoUpdate
+                        height: 35
+                        width: 70
+                        checked: isActiveSendData
+                        settingKey: "AutoUpdate"
+                        x: parent.width - autoUpdate.width - 90
+                        y: parent.height/2 - autoUpdate.height /2
+                    }
+                }
+            } // End Start send data
+
             // Start storage slider block
             Rectangle {
                 width: parent.width - 30  // Reduce width for left/right padding
@@ -149,8 +181,9 @@ Rectangle {
 
                     Customslider{
                         id: storageSlider
-                        from: 10
-                        to: 500
+                        from: 0
+                        to: 50
+                        value: 0
                         stepSize: 1
                         x: parent.width - storageSlider.width
                         y: parent.height/2 - storageSlider.height /2
@@ -173,16 +206,17 @@ Rectangle {
                     spacing: 10
 
                     Text {
-                        text: " Interval between each ransomware check (in seconds)"
-                        font.pixelSize: 22
+                        text: " Interval between each ransomware check"
+                        font.pixelSize: 25
                         color: root.textColor
                         y: parent.height/2 - ransomSlider.height /2
                     }
 
                     Customslider{
                         id: ransomSlider
-                        from: 3
-                        to: 10
+                        from: 0
+                        to: 50
+                        value: 0
                         stepSize: 1
                         x: parent.width - ransomSlider.width
                         y: parent.height/2 - ransomSlider.height /2
@@ -205,16 +239,17 @@ Rectangle {
                     spacing: 10
 
                     Text {
-                        text: " Interval between each info stealer check (in seconds)"
-                        font.pixelSize: 22
+                        text: " Interval between each info stealer check"
+                        font.pixelSize: 25
                         color: root.textColor
                         y: parent.height/2 - infoSlider.height /2
                     }
 
                     Customslider{
                         id: infoSlider
-                        from: 10
-                        to: 60
+                        from: 0
+                        to: 50
+                        value: 0
                         stepSize: 1
                         x: parent.width - infoSlider.width
                         y: parent.height/2 - infoSlider.height /2

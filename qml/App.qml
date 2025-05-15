@@ -8,7 +8,7 @@ Window {
     visible: true
     width: 1000
     height: 700
-    title: "My App"
+    title: "Black Mamba"
     flags: Qt.FramelessWindowHint | Qt.Window
     color: "transparent"
 

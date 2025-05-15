@@ -4,12 +4,12 @@ import json, os, sys, subprocess
 import winreg
 
 class AlertHandler(QObject):
-    showAlert = Signal()
+    showAlertWithType = Signal(str)
 
-    @Slot()
-    def triggerAlert(self):
-        self.showAlert.emit()
-
+    @Slot(str)
+    def triggerAlertWithType(self, malware_type):
+        print(f"AlertHandler: Emitting showAlertWithType with type: {malware_type}")
+        self.showAlertWithType.emit(malware_type)
 
 
 class SettingsManager(QObject):

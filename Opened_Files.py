@@ -8,9 +8,14 @@ import queue
 import tempfile
 import re
 import stat
+import datetime
 from multiprocessing import Pool, freeze_support, set_start_method
 from PySide6.QtCore import QCoreApplication, QTimer
 from PySide6.QtNetwork import QLocalSocket
+from Database import SQL
+from Report import AlertProcessor
+
+import json
 
 MAX_THREADS = 30
 MAX_PROCESSES = 3
@@ -22,17 +27,24 @@ last_access_time = {}
 process_sessions = {}
 lock = threading.Lock()
 parsinglock = threading.Lock()
+write_queue = queue.Queue()
+sql = SQL()
+alert_processor = AlertProcessor()
+
 
 log_file_path = r"C:\Windows\System32\AntiMalware\input.txt"
 
 log_file = open(log_file_path, "w", encoding="utf-8")
+
+with open("settings.json", "r") as f:
+    userSettings = json.load(f)
 
 system_process_list = [
     "brave.exe", "chrome.exe", "firefox.exe", "svchost.exe", "consent.exe",
     "frida-helper-x86.exe", "frida-helper-x86_64.exe", "dllhost.exe",
     "ctfmon.exe", "conhost.exe", "runtimebroker.exe", "wmiprvse.exe",
     "taskmgr.exe", "werfault.exe", "explorer.exe", "taskhostw.exe",
-    "searchprotocolhost.exe", "Ransomware.exe", "parser.exe"
+    "searchprotocolhost.exe", "Ransomware.exe", "parser.exe", "tiworker.exe"
 ]
 
 hook_script = """
@@ -161,6 +173,40 @@ rpc.exports = {
 };
 """
 
+def get_or_create_process(proc_name):
+    if sql.process_exists(proc_name):
+        return sql.get_process_id(proc_name)
+    return sql.insert_process(proc_name)
+
+def insert_out_file(file="output.txt"):
+    default_type_name = "InfoStealer"
+
+    type_mapping = {}
+
+    with open(file, "r", encoding="utf-8") as f:
+        lines = [L.strip() for L in f if L.strip()]
+
+    idx = 0
+    total_runs = int(lines[idx])
+    idx += 1
+
+    for _ in range(total_runs):
+        exe_name, cnt_s = lines[idx].split(maxsplit=1)
+        cnt = int(cnt_s)
+        idx += 1
+
+        paths = lines[idx: idx + cnt]
+        idx += cnt
+
+        proc_id = get_or_create_process(exe_name)
+
+        type_name = type_mapping.get(exe_name, default_type_name)
+        type_id = sql.get_malware_type_id(type_name)
+
+        for p in paths:
+            sql.insert_process_path(proc_id, type_id, p)
+
+
 def getProcessByName(process_name):
     for proc in psutil.process_iter(['name']):
         try:
@@ -184,9 +230,10 @@ def parseInfoFile():
 
     if processes:
         print(processes)
-        terminateAndRemove(str(processes[0]), 0)
+        terminateAndRemove(str(processes[0]), "infostealer")
 
     open(r"C:\Windows\System32\AntiMalware\output.txt", "w")
+    open(r"C:\Windows\System32\AntiMalware\ransom.txt", "w")
 
 
 def parseRansomFile():
@@ -195,14 +242,34 @@ def parseRansomFile():
         if len(lines) >= 2:
             second_line = lines[1].strip()
             print(second_line)
-            terminateAndRemove(str(second_line), 1)
+            terminateAndRemove(str(second_line), "Ransomware")
 
         open(r"C:\Windows\System32\AntiMalware\ransom.txt", "w")
+        open(r"C:\Windows\System32\AntiMalware\output.txt", "w")
 
 def terminateAndRemove(name, type):
+    alert_processor.copy_to_alerts()
+
     proc = getProcessByName(name)
     if not proc:
         print("Process not found")
+        open(r"C:\Windows\System32\AntiMalware\input.txt", "w")
+        socket = QLocalSocket()
+        socket.connectToServer("AlertTriggerServer")
+        if socket.waitForConnected(1000):
+            socket.write(f"trigger_alert:{type}".encode())
+            socket.flush()
+            socket.disconnectFromServer()
+            print("Sent trigger_alert")
+        else:
+            print("Could not connect to AlertTriggerServer")
+
+        if not sql.process_exists(name):
+            sql.insert_process(name)
+
+        insert_out_file(r"C:\Windows\System32\AntiMalware\output.txt")
+
+        QTimer.singleShot(500, app.quit)
         return
 
     try:
@@ -214,9 +281,12 @@ def terminateAndRemove(name, type):
             proc.wait(timeout=5)
         except psutil.TimeoutExpired:
             print("Process did not terminate within timeout.")
+
         print("Process killed")
 
         time.sleep(1)
+
+        open(r"C:\Windows\System32\AntiMalware\input.txt", "w")
 
         if os.path.exists(exe_path):
             try:
@@ -235,12 +305,18 @@ def terminateAndRemove(name, type):
         socket = QLocalSocket()
         socket.connectToServer("AlertTriggerServer")
         if socket.waitForConnected(1000):
-            socket.write(b"trigger_alert")
+            socket.write(f"trigger_alert:{type}".encode())
             socket.flush()
             socket.disconnectFromServer()
             print("Sent trigger_alert")
         else:
             print("Could not connect to AlertTriggerServer")
+
+        if not sql.process_exists(name):
+            sql.insert_process(name)
+
+        insert_out_file(r"C:\Windows\System32\AntiMalware\output.txt")
+
         QTimer.singleShot(500, app.quit)
 
     except Exception as e:
@@ -269,6 +345,37 @@ def delete_frida_Temp():
                 shutil.rmtree(item_path)
     except Exception as e:
         print(f"Error while deleting directories: {e}")
+
+def monitor_and_log(interval=0.05, logfile=r"C:\Windows\System32\AntiMalware\Date.txt"):
+    entries = {}
+    if os.path.exists(logfile):
+        with open(logfile, 'r', encoding='utf-8') as f:
+            for line in f:
+                try:
+                    name, ts = line.strip().split(':', 1)
+                    entries[name] = ts
+                except ValueError:
+                    continue
+
+    for new_pids in monitor_processes(interval):
+        updated = False
+        timestamp = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S.%f")
+        for pid in new_pids:
+            try:
+                proc = psutil.Process(pid)
+                name = proc.name()
+                entries[name] = timestamp
+                updated = True
+            except (psutil.NoSuchProcess, psutil.AccessDenied):
+                continue
+        if updated:
+            with open(logfile, 'w', encoding='utf-8') as f:
+                for pname, pts in entries.items():
+                    f.write(f"{pname}:{pts}\n")
+
+def start_process_logger():
+    thread = threading.Thread(target=monitor_and_log, daemon=True)
+    thread.start()
 
 
 def monitor_processes(interval=0.05):
@@ -425,7 +532,9 @@ def hook_in_process(pid, process_name):
 
 def parse_and_calc():
     while True:
-        time.sleep(30)
+        if os.path.getsize(log_file_path) / (1024 * 1024) >= int(userSettings.get("MaximumLogFileSize", 0)):
+            open(r"C:\Windows\System32\AntiMalware\input.txt", "w")
+        time.sleep(int(userSettings.get("InfoInterval", 0)))
         with parsinglock:
             print("Parse")
             p = subprocess.Popen(r"C:\Windows\System32\AntiMalware\parser.exe")
@@ -438,7 +547,7 @@ def parse_and_calc():
 
 def ransom():
     while True:
-        time.sleep(3)
+        time.sleep(int(userSettings.get("RansomInterval", 0)))
         with parsinglock:
             print("Ransom")
             p = subprocess.Popen(r"C:\Windows\System32\AntiMalware\parser.exe")
@@ -453,6 +562,7 @@ def process_hook_manager():
     thread_pool = queue.Queue(maxsize=MAX_THREADS)
     pool = Pool(processes=MAX_PROCESSES)
     threading.Thread(target=check_inactivity, daemon=True).start()
+    start_process_logger()
     for new_pids in monitor_processes():
         for pid in new_pids:
             try:
