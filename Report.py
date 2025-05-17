@@ -9,13 +9,13 @@ from PySide6.QtQml import QQmlApplicationEngine
 
 
 class AlertProcessor(QObject):
-    newAlert = Signal(str, str, str, str)
+    newAlert = Signal(str, str, str, str, str)
     alertsCleared = Signal()
 
     def __init__(self):
         super().__init__()
         self.spawn_times = {}
-        self._load_spawn_times()  # Call the new method
+        self._load_spawn_times()
 
     def _load_spawn_times(self):
         self.spawn_times.clear()
@@ -26,9 +26,11 @@ class AlertProcessor(QObject):
                     if not line or ":" not in line: continue
                     name, ts = line.split(":", 1)
                     name, ts = name.strip().lower(), ts.strip()
+                    # Attempt to parse various known datetime formats
                     parsed_ts = None
                     for fmt in ("%Y-%m-%d %H:%M:%S.%f", "%Y-%m-%d %H:%M:%S"):
                         try:
+                            # Ensure month and day are zero-padded if necessary by reconstructing
                             parts = ts.split(" ")
                             date_part = parts[0]
                             time_part = parts[1] if len(parts) > 1 else "00:00:00"
@@ -36,7 +38,7 @@ class AlertProcessor(QObject):
                             m, d = m.zfill(2), d.zfill(2)
                             reconstructed_ts = f"{y}-{m}-{d} {time_part}"
                             parsed_ts = dt.datetime.strptime(reconstructed_ts, fmt)
-                            break
+                            break  # Successfully parsed
                         except ValueError:
                             continue
                     if parsed_ts:
@@ -79,14 +81,26 @@ class AlertProcessor(QObject):
         total_count = num_output + num_existing
 
         new_entries = []
-        for line in output_lines[1:]:
+        current_line_index = 1
+        while current_line_index < len(output_lines):
+            line = output_lines[current_line_index]
             parts = line.split()
             if len(parts) >= 2 and parts[0].lower().endswith(".exe") and parts[1].isdigit():
-                proc, cnt = parts[0], parts[1]
+                proc, path_count_str = parts[0], parts[1]
+                path_count = int(path_count_str)
                 ts = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-                new_entries.append(f"{proc} {cnt} {ts}\n")
+                new_entries.append(f"{proc} Infostealer {path_count_str} {ts}\n")
+                current_line_index += 1
+                for _ in range(path_count):
+                    if current_line_index < len(output_lines):
+                        new_entries.append(f"{output_lines[current_line_index]}\n")
+                        current_line_index += 1
+                    else:
+                        print(f"Warning: Expected {path_count} paths for {proc}, but found fewer in output.txt")
+                        break
             else:
-                new_entries.append(f"{line}\n")
+                print(f"Warning: Skipping unexpected line format in output.txt: {line}")
+                current_line_index += 1
 
         with open(alerts_file_path, "w", encoding="utf-8") as f:
             f.write(f"{total_count}\n")
@@ -94,6 +108,35 @@ class AlertProcessor(QObject):
                 for old in old_lines[1:]:
                     f.write(old + "\n")
             f.writelines(new_entries)
+
+    @Slot(str)
+    def log_ransomware_alert(self, ransomware_process_name: str):
+        alerts_file_path = Path("alerts.txt")
+        old_lines = []
+        num_existing = 0
+
+        if alerts_file_path.exists() and alerts_file_path.stat().st_size > 0:
+            with open(alerts_file_path, "r", encoding="utf-8") as f:
+                old_lines = [l.rstrip("\n") for l in f if l.strip()]
+            if old_lines:
+                try:
+                    num_existing = int(old_lines[0])
+                    old_lines = old_lines[1:]
+                except (ValueError, IndexError):
+                    num_existing = 0
+                    old_lines = []
+
+        ts = dt.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+        ransomware_entry_header = f"{ransomware_process_name} Ransomware 0 {ts}"
+
+        updated_alert_data_lines = old_lines + [ransomware_entry_header]
+        total_count = num_existing + 1
+
+        with open(alerts_file_path, "w", encoding="utf-8") as f:
+            f.write(f"{total_count}\n")
+            for entry_line in updated_alert_data_lines:
+                f.write(entry_line + "\n")
+        print(f"Logged ransomware alert for: {ransomware_process_name}")
 
     @Slot()
     def process_file(self):
@@ -108,25 +151,23 @@ class AlertProcessor(QObject):
                 return
             i = 1
             total_lines = len(lines)
-
             while i < total_lines:
-                parts = lines[i].split(maxsplit=2)
-                if len(parts) < 3:
+                parts = lines[i].split(maxsplit=3)  # Changed from 2 to 3 to include malware_type
+                if len(parts) < 4:
                     i += 1
                     continue
 
-                process_name, number_of_paths, timestamp = parts
+                process_name, malware_type, number_of_paths_str, timestamp = parts
 
                 try:
-                    number_of_paths = int(number_of_paths)
+                    number_of_paths = int(number_of_paths_str)
                 except ValueError:
                     i += 1
                     continue
                 paths = lines[i + 1: i + 1 + number_of_paths]
                 i += number_of_paths + 1
 
-                self.process_paths(process_name, paths, timestamp)
-
+                self.process_paths(process_name, malware_type, paths, timestamp)
         except Exception as e:
             print(f"Error processing file: {str(e)}")
 
@@ -160,12 +201,11 @@ class AlertProcessor(QObject):
         i = 1
         removed = False
         while i < len(lines):
-            header = lines[i].split(maxsplit=2)
+            header = lines[i].split(maxsplit=3)
             if len(header) < 3:
                 i += 1
                 continue
-
-            proc_name, num_paths_str, timestamp = header
+            proc_name, malware_type, num_paths_str, timestamp = header  # Unpack with malware_type
             try:
                 num_paths = int(num_paths_str)
             except ValueError:
@@ -175,6 +215,7 @@ class AlertProcessor(QObject):
             block = lines[i: i + 1 + num_paths]
             if proc_name.lower() == target_process.lower() and not removed:
                 removed = True
+                total -= 1  # Decrement total count as one alert block is being removed
             else:
                 new_blocks.extend(block)
 
@@ -183,59 +224,56 @@ class AlertProcessor(QObject):
         if not removed:
             return
 
-        new_total = max(0, total - 1)
+        # new_total = max(0, total - 1) # This was already handled by decrementing total inside loop
         with open(file_path, "w", encoding="utf-8") as f:
-            f.write(f"{new_total}\n")
+            f.write(f"{total}\n")  # Write the decremented total
             for line in new_blocks:
                 f.write(line + "\n")
 
-        self.alertsCleared.emit()
-
-        j = 0
-        while j < len(new_blocks):
-            proc_name, num_paths_str, timestamp = new_blocks[j].split(maxsplit=2)
-            num_paths = int(num_paths_str)
-
-            raw_paths = new_blocks[j + 1: j + 1 + num_paths]
-
-            self.process_paths(proc_name, raw_paths, timestamp)
-
-            j += 1 + num_paths
+        self.alertsCleared.emit()  # Signal that alerts have changed
+        self.refreshAlerts()  # Repopulate the UI by re-processing the modified alerts.txt
 
     @Slot()
     def refreshAlerts(self):
         alerts_file = Path("alerts.txt")
-        if not alerts_file.exists():
+        if not alerts_file.exists() or alerts_file.stat().st_size == 0:
+            self.alertsCleared.emit()  # Emit even if file is empty/gone so UI can clear
             return
 
         with open(alerts_file, "r", encoding="utf-8") as f:
             lines = [l.rstrip("\n") for l in f if l.strip()]
 
-        try:
-            _ = int(lines[0])
-        except:
+        if not lines:  # If file only contained whitespace
+            self.alertsCleared.emit()
             return
 
-        self.alertsCleared.emit()
+        try:
+            _ = int(lines[0])  # Validate header count
+        except (ValueError, IndexError):
+            print("Warning: alerts.txt has malformed header or is empty after header.")
+            self.alertsCleared.emit()  # Emit so UI can clear if data is bad
+            return
+
+        self.alertsCleared.emit()  # Emit first to clear existing UI items
 
         i = 1
         while i < len(lines):
-            header = lines[i].split(maxsplit=2)
-            if len(header) < 3:
+            header = lines[i].split(maxsplit=3)  # Changed from 2 to 3
+            if len(header) < 4:
                 i += 1
                 continue
-            proc, n_str, ts = header
+            proc, malware_type, n_str, ts = header  # Unpack with malware_type
             try:
                 n = int(n_str)
-            except:
+            except ValueError:
                 i += 1
                 continue
             raw_paths = lines[i + 1: i + 1 + n]
 
-            self.process_paths(proc, raw_paths, ts)
-            i += n + 1
+            self.process_paths(proc, malware_type, raw_paths, ts)  # Pass malware_type
+            i += n
 
-    def process_paths(self, process_name: str, paths: list, timestamp: str) -> None:
+    def process_paths(self, process_name: str, malware_type: str, paths: list, timestamp: str) -> None:
         info_stealer_keywords = {
             "Credentials or Login Information": [
                 "login",
@@ -383,30 +421,30 @@ class AlertProcessor(QObject):
         }
 
         processed_paths = []
+        paths_string = ""
 
-        for path in paths:
-            for category, keywords in info_stealer_keywords.items():
-                matches = sum(
-                    1
-                    for keyword in keywords
-                    if re.search(
-                        rf"(^|[/\\])([^/\\]*{re.escape(keyword)}[^/\\]*)",
-                        path,
-                        re.IGNORECASE,
+        if malware_type.lower() == "infostealer":
+            for path in paths:
+                for category, keywords in info_stealer_keywords.items():
+                    matches = sum(
+                        1
+                        for keyword in keywords
+                        if re.search(
+                            rf"(^|[/\\])([^/\\]*{re.escape(keyword)}[^/\\]*)",
+                            path,
+                            re.IGNORECASE,
+                        )
                     )
-                )
-                if matches >= 2:
-                    processed_paths.append(f"{path.strip()} - {category}")
-                    break
-
-        paths_string = "\n".join(processed_paths)
+                    if matches >= 2:
+                        processed_paths.append(f"{path.strip()} - {category}")
+                        break
+            paths_string = "\n".join(processed_paths)
 
         ts_alert = dt.datetime.strptime(timestamp, "%Y-%m-%d %H:%M:%S")
         process_key = process_name.lower()
         spawn = self.spawn_times.get(process_key)
 
-        if not spawn:  # If not found, try reloading and get again
-            # print(f"DEBUG: Spawn time for {process_key} not found, reloading Date.txt...") # Optional debug
+        if not spawn:
             self._load_spawn_times()
             spawn = self.spawn_times.get(process_key)
 
@@ -416,7 +454,7 @@ class AlertProcessor(QObject):
                 delta = ts_alert - spawn
                 total_seconds = int(delta.total_seconds())
 
-                if total_seconds < 0:  # Should ideally not happen if ts_alert >= spawn
+                if total_seconds < 0:
                     elapsed = "N/A (Alert before spawn)"
                 else:
                     days, remainder_seconds = divmod(total_seconds, 86400)
@@ -434,7 +472,7 @@ class AlertProcessor(QObject):
         else:
             elapsed = "N/A (Spawn time unknown)"
 
-        self.newAlert.emit(process_name, paths_string, timestamp, elapsed)
+        self.newAlert.emit(process_name, paths_string, timestamp, elapsed, malware_type)
 
 
 def main():

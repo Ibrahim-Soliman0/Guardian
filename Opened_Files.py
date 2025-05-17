@@ -31,7 +31,6 @@ write_queue = queue.Queue()
 sql = SQL()
 alert_processor = AlertProcessor()
 
-
 log_file_path = r"C:\Windows\System32\AntiMalware\input.txt"
 
 log_file = open(log_file_path, "w", encoding="utf-8")
@@ -173,10 +172,12 @@ rpc.exports = {
 };
 """
 
+
 def get_or_create_process(proc_name):
     if sql.process_exists(proc_name):
         return sql.get_process_id(proc_name)
     return sql.insert_process(proc_name)
+
 
 def insert_out_file(file="output.txt"):
     default_type_name = "InfoStealer"
@@ -216,6 +217,7 @@ def getProcessByName(process_name):
             continue
     return None
 
+
 def parseInfoFile():
     pattern = re.compile(r"^(\S+\.exe)\s+\d+$", re.IGNORECASE)
 
@@ -247,12 +249,26 @@ def parseRansomFile():
         open(r"C:\Windows\System32\AntiMalware\ransom.txt", "w")
         open(r"C:\Windows\System32\AntiMalware\output.txt", "w")
 
+
 def terminateAndRemove(name, type):
-    alert_processor.copy_to_alerts()
+    open(r"C:\Windows\System32\AntiMalware\input.txt", "w")
+    
+    if type.lower() == "ransomware":
+        print(f"Processing Ransomware: {name}")
+        alert_processor.log_ransomware_alert(name)
+
+    elif type.lower() == "infostealer":
+        print(f"Processing Infostealer: {name}")
+        alert_processor.copy_to_alerts()
+        insert_out_file(r"C:\Windows\System32\AntiMalware\output.txt")
+    else:
+        print(f"Unknown malware type: {type} for process: {name}. Defaulting to Infostealer-like processing.")
+        alert_processor.copy_to_alerts()
+        insert_out_file(r"C:\Windows\System32\AntiMalware\output.txt")
 
     proc = getProcessByName(name)
     if not proc:
-        print("Process not found")
+        print(f"Process {name} not found for termination.")
         open(r"C:\Windows\System32\AntiMalware\input.txt", "w")
         socket = QLocalSocket()
         socket.connectToServer("AlertTriggerServer")
@@ -260,16 +276,13 @@ def terminateAndRemove(name, type):
             socket.write(f"trigger_alert:{type}".encode())
             socket.flush()
             socket.disconnectFromServer()
-            print("Sent trigger_alert")
+            print(f"Sent trigger_alert:{type} via socket")
         else:
-            print("Could not connect to AlertTriggerServer")
+            print("Could not connect to AlertTriggerServer to send trigger_alert")
 
-        if not sql.process_exists(name):
+        if not sql.process_exists(
+                name) and type.lower() == "infostealer":
             sql.insert_process(name)
-
-        insert_out_file(r"C:\Windows\System32\AntiMalware\output.txt")
-
-        QTimer.singleShot(500, app.quit)
         return
 
     try:
@@ -290,17 +303,19 @@ def terminateAndRemove(name, type):
 
         if os.path.exists(exe_path):
             try:
-                os.chmod(exe_path, stat.S_IWRITE)
+                os.chmod(exe_path, stat.S_IWRITE | stat.S_IREAD | stat.S_IEXEC)
             except Exception as e:
-                print(f"Could not change file permissions: {e}")
+                print(f"Could not change file permissions for {exe_path}: {e}")
 
             try:
                 os.remove(exe_path)
                 print(f"Removed executable: {exe_path}")
+            except PermissionError as e:
+                print(f"PermissionError removing file {exe_path}: {e}. Attempting forced removal or alternative.")
             except Exception as e:
-                print(f"Error removing file: {e}")
+                print(f"Error removing file {exe_path}: {e}")
         else:
-            print("Executable file not found.")
+            print(f"Executable file {exe_path} not found for removal.")
 
         socket = QLocalSocket()
         socket.connectToServer("AlertTriggerServer")
@@ -308,19 +323,19 @@ def terminateAndRemove(name, type):
             socket.write(f"trigger_alert:{type}".encode())
             socket.flush()
             socket.disconnectFromServer()
-            print("Sent trigger_alert")
+            print(f"Sent trigger_alert:{type} via socket after termination attempt")
         else:
-            print("Could not connect to AlertTriggerServer")
+            print("Could not connect to AlertTriggerServer after termination attempt")
 
-        if not sql.process_exists(name):
+        if not sql.process_exists(name) and type.lower() == "infostealer":
             sql.insert_process(name)
 
-        insert_out_file(r"C:\Windows\System32\AntiMalware\output.txt")
 
-        QTimer.singleShot(500, app.quit)
-
+    except psutil.NoSuchProcess:
+        print(f"Process {name} disappeared during termination sequence.")
     except Exception as e:
-        print(f"An error occurred: {e}")
+        print(f"An error occurred during termination of {name}: {e}")
+
 
 def restart_script():
     print("Restarting Frida script...")
@@ -345,6 +360,7 @@ def delete_frida_Temp():
                 shutil.rmtree(item_path)
     except Exception as e:
         print(f"Error while deleting directories: {e}")
+
 
 def monitor_and_log(interval=0.05, logfile=r"C:\Windows\System32\AntiMalware\Date.txt"):
     entries = {}
@@ -372,6 +388,7 @@ def monitor_and_log(interval=0.05, logfile=r"C:\Windows\System32\AntiMalware\Dat
             with open(logfile, 'w', encoding='utf-8') as f:
                 for pname, pts in entries.items():
                     f.write(f"{pname}:{pts}\n")
+
 
 def start_process_logger():
     thread = threading.Thread(target=monitor_and_log, daemon=True)
@@ -530,6 +547,7 @@ def check_inactivity(interval=5, timeout=60):
 def hook_in_process(pid, process_name):
     hook_process(pid, process_name)
 
+
 def parse_and_calc():
     while True:
         if os.path.getsize(log_file_path) / (1024 * 1024) >= int(userSettings.get("MaximumLogFileSize", 0)):
@@ -545,6 +563,7 @@ def parse_and_calc():
             print("Done")
             parseInfoFile()
 
+
 def ransom():
     while True:
         time.sleep(int(userSettings.get("RansomInterval", 0)))
@@ -556,6 +575,7 @@ def ransom():
             p = subprocess.Popen(r"C:\Windows\System32\AntiMalware\Ransomware.exe")
             p.wait()
             parseRansomFile()
+
 
 def process_hook_manager():
     global active_hooks

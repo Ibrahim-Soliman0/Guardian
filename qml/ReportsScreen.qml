@@ -226,31 +226,42 @@ Rectangle {
                             RowLayout {
                                 Layout.fillWidth: true
 
-                                Label {
+                                Label { // Process Name
                                     text: model.process
                                     font.pixelSize: 18
                                     font.bold: true
                                     color: accentColor
                                     elide: Text.ElideRight
-                                    Layout.fillWidth: true
+                                    // Allow this to take natural width, then spacer, then type/timestamp pushed right
                                 }
 
-                                Label {
+                                Item { Layout.fillWidth: true } // Spacer
+
+                                Label { // Malware Type
+                                    text: "Type: " + (model.malwareType || "Unknown")
+                                    font.pixelSize: 15
+                                    font.bold: true
+                                    // Using specific colors for known types, and a default for others
+                                    color: model.malwareType && model.malwareType.toLowerCase() === "ransomware" ? "#FF474C" : (model.malwareType && model.malwareType.toLowerCase() === "infostealer" ? "#FFA500" : "#E0E0E0")
+                                    Layout.alignment: Qt.AlignVCenter
+                                    Layout.rightMargin: 10 // Margin between Type and Timestamp
+                                }
+
+                                Label { // Timestamp
                                     text: model.timestamp
                                     font.pixelSize: 15
                                     font.bold: true
                                     color: accentColor
                                     horizontalAlignment: Text.AlignRight
-                                    Layout.alignment: Qt.AlignRight
+                                    Layout.alignment: Qt.AlignVCenter // Align vertically with Type label
                                 }
-
                             }
 
                             RowLayout {
                                 Layout.fillWidth: true
 
                                 Label {
-                                    text: lines.length + " sensitive paths detected"
+                                    text: model.malwareType && model.malwareType.toLowerCase() === "ransomware" ? "Ransomware Event (No paths applicable)" : (lines.length + " sensitive paths detected")
                                     font.pixelSize: 15
                                     color: "#ffffff"
                                     wrapMode: Text.Wrap
@@ -320,12 +331,13 @@ Rectangle {
     Connections {
         target: alertProcessor
 
-        function onNewAlert(process_name, paths, timestamp, elapsed) {
+        function onNewAlert(process_name, paths, timestamp, elapsed, malware_type) { // Added malware_type
             notificationList.model.append({
                 process:   process_name,
                 paths:     paths || "",
                 timestamp: timestamp,
-                elapsed:   elapsed
+                elapsed:   elapsed,
+                malwareType: malware_type // Store malware_type in the model
             })
         }
 
