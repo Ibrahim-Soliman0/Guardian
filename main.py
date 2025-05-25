@@ -1,15 +1,107 @@
 import sys
 import json
-from PySide6.QtCore import QUrl, QTimer
+import os
+from pathlib import Path
+from PySide6.QtCore import Qt, QUrl, QTimer
 from PySide6.QtNetwork import QLocalServer
 from PySide6.QtQml import QQmlApplicationEngine
-from PySide6.QtWidgets import QApplication, QSystemTrayIcon, QMenu
-from PySide6.QtGui import QIcon, QAction
+from PySide6.QtWidgets import QApplication, QSystemTrayIcon, QMenu, QWidget
+from PySide6.QtGui import QIcon, QAction, QColor
+from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtWebEngineCore import QWebEngineSettings
 from SettingsManager import SettingsManager, AlertHandler
 from Database import SQL
 from Report import AlertProcessor
 
 sql = SQL()
+
+
+class EnhancedSplashScreen(QWidget):
+    def __init__(self, svg_path, parent=None):
+        super().__init__(parent)
+
+        self.setWindowFlags(Qt.FramelessWindowHint | Qt.WindowStaysOnTopHint)
+
+        self.setAttribute(Qt.WA_TranslucentBackground)
+
+        self.web_view = QWebEngineView(self)
+
+        self.web_view.settings().setAttribute(QWebEngineSettings.WebGLEnabled, True)
+        self.web_view.settings().setAttribute(QWebEngineSettings.Accelerated2dCanvasEnabled, True)
+
+        self.web_view.setZoomFactor(1)
+
+        self.web_view.page().setBackgroundColor(QColor(0, 0, 0, 0))
+
+        svg_path = Path(svg_path).resolve()
+
+        html_content = f"""
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+            <style>
+                body {{
+                    margin: 0;
+                    padding: 0;
+                    background-color: transparent;
+                    overflow: hidden;
+                    width: 100vw;
+                    height: 100vh;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }}
+                .svg-container {{
+                    width: 100%;
+                    height: 100%;
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                }}
+                /* Force high-quality rendering */
+                svg {{
+                    width: 100%;
+                    height: 100%;
+                    shape-rendering: geometricPrecision;
+                    text-rendering: geometricPrecision;
+                    image-rendering: optimizeQuality;
+                    -webkit-transform: translateZ(0);
+                    transform: translateZ(0);
+                }}
+            </style>
+        </head>
+        <body>
+            <div class="svg-container">
+                <object data="file://{svg_path}" type="image/svg+xml" width="100%" height="100%"></object>
+            </div>
+        </body>
+        </html>
+        """
+
+        temp_dir = os.path.dirname(svg_path) if os.path.dirname(svg_path) else "."
+        self.temp_html_path = os.path.join(temp_dir, "temp_splash_hq.html")
+        with open(self.temp_html_path, "w") as f:
+            f.write(html_content)
+
+        self.web_view.load(QUrl.fromLocalFile(self.temp_html_path))
+
+        self.resize(300, 300)
+        self.web_view.resize(300, 300)
+
+        # Center on screen
+        screen_geometry = QApplication.primaryScreen().geometry()
+        x = (screen_geometry.width() - self.width()) // 2
+        y = (screen_geometry.height() - self.height()) // 2
+        self.move(x, y)
+
+    def cleanup(self):
+        try:
+            if hasattr(self, 'temp_html_path') and os.path.exists(self.temp_html_path):
+                os.remove(self.temp_html_path)
+        except Exception as e:
+            print(f"Error removing temporary file: {e}")
 
 def write_data_file_from_db(output_path):
     try:
@@ -161,7 +253,7 @@ def process_socket_message(socket):
 
         except Exception as e:
             print(f"Error processing message '{message}': {e}")
-            if hasattr(alertHandler, "triggerAlert"):  # Fallback on error
+            if hasattr(alertHandler, "triggerAlert"):
                 alertHandler.triggerAlert()
 
     else:
@@ -190,23 +282,20 @@ if __name__ == "__main__":
     alert_window = alert_objects[0]
     alert_window.setProperty("visible", False)
 
-    # splash_screen_url = QUrl.fromLocalFile(r"qml\SplashScreen.qml")
-    # engine.load(splash_screen_url)
-    # splash_objects = engine.rootObjects()
-    # if not splash_objects:
-    #     print("Error: Could not load SplashScreen.qml")
-    #     sys.exit(-1)
-    # splash_screen = splash_objects[-1]
-    # splash_screen.setProperty("visible", True)
-    # print("Splash screen loaded.")
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+
+    svg_path = "icons_accent/SplashScreen.svg"
+
+    splash_screen = EnhancedSplashScreen(svg_path)
+    splash_screen.show()
 
     def start_main():
-        #splash_screen.setProperty("visible", False)
+        splash_screen.hide()
+        splash_screen.cleanup()
         main_window = load_main_window(engine, ctx)
         alert_window.setProperty("mainWindow", main_window)
+        setup_local_server()
 
-    QTimer.singleShot(2000, start_main)
-
-    setup_local_server()
+    QTimer.singleShot(3000, start_main)
 
     sys.exit(app.exec())

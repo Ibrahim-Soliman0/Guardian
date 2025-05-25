@@ -8,7 +8,7 @@ Window {
     visible: true
     width: 1000
     height: 700
-    title: "Black Mamba"
+    title: "Guardian"
     flags: Qt.FramelessWindowHint | Qt.Window
     color: "transparent"
 
@@ -113,12 +113,26 @@ Window {
     Rectangle {
         id: titlebar
         width: 1000
-        height: 30
+        height: 40
         color: menuColor
         z: 2
 
         Row {
             anchors.fill: parent
+
+
+            Text {
+                id: titleText
+                text: "GUARDIAN"
+                color: "#8698fc"
+                font.family: "Courier"
+                font.pointSize: 20
+                font.bold: true
+                verticalAlignment: Text.AlignVCenter
+                horizontalAlignment: Text.AlignHCenter
+                width: 150
+                height: parent.height
+            }
 
             Titlebarbutton {
                 id: exitbutton
