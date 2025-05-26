@@ -67,8 +67,8 @@ Button {
         else{
             alert.visible = false;
             if (mainWindow) {
-                mainWindow.currentScreen = "Settings";
-                mainWindow.stackview.push("SettingsScreen.qml");
+                mainWindow.currentScreen = "Reports";
+                mainWindow.stackview.push("ReportsScreen.qml");
                 mainWindow.show();
             }
         }
