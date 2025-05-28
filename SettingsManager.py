@@ -45,11 +45,6 @@ class SettingsManager(QObject):
                         self.addToStartup()
                     else:
                         self.removeFromStartup()
-                elif changedKey == "isActiveSendData":
-                    if self._settings.get("isActiveSendData", 0) == 1:
-                        self.enableSendData()
-                    else:
-                        self.disableSendData()
             else:
                 pass
 
@@ -118,9 +113,3 @@ class SettingsManager(QObject):
             print("Registry key or startup entry not found.")
         except OSError as e:
             print("Error removing startup entry:", e)
-
-    def enableSendData(self):
-        print("Send data enabled.")
-
-    def disableSendData(self):
-        print("Send data disabled.")

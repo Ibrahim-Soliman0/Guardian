@@ -95,39 +95,7 @@ Rectangle {
                 }
             } // Start minimized block end
 
-            // Start send data block
-            Rectangle {
-                width: parent.width - 30  // Reduce width for left/right padding
-                height: 50
-                radius: 10
-                color: root.menuColor
-                anchors.horizontalCenter: parent.horizontalCenter
-
-                Row {
-                    width: parent.width
-                    anchors.fill: parent
-                    spacing: 10
-
-                    Text {
-                        text: " Send logs to the server"
-                        font.pixelSize: 25
-                        color: root.textColor
-                        y: parent.height/2 - startMinimizedSwitch.height /2
-                    }
-
-                    Customswitch {
-                        id: sendData
-                        height: 35
-                        width: 70
-                        checked: isActiveSendData
-                        settingKey: "isActiveSendData"
-                        x: parent.width - sendData.width - 90
-                        y: parent.height/2 - sendData.height /2
-                    }
-                }
-            } // End Start send data
-
-            // Start send data block
+            // Start auto update block
             Rectangle {
                 width: parent.width - 30  // Reduce width for left/right padding
                 height: 50
@@ -157,7 +125,7 @@ Rectangle {
                         y: parent.height/2 - autoUpdate.height /2
                     }
                 }
-            } // End Start send data
+            } // End auto update block
 
             // Start storage slider block
             Rectangle {
