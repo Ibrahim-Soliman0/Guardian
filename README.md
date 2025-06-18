@@ -1,4 +1,3 @@
 # Guardian
 
-
-Adek Ya Fandem :D
+:D
