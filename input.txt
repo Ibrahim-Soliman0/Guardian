@@ -1,0 +1,322 @@
+notepad++.exe >> (ReadFile) \\?\C:\Windows\Fonts\StaticCache.dat
+notepad++.exe >> C:\Windows\Fonts\staticcache.dat
+notepad++.exe >> new 1
+notepad++.exe >> new 1
+notepad++.exe >> new 1
+notepad++.exe >> new 1
+notepad++.exe >> new 1
+notepad++.exe >> new 1
+notepad++.exe >> new 1
+notepad++.exe >> new 1
+notepad++.exe >> C:\Program Files\Notepad++\plugins\Config\nppPluginList.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\Config\nppPluginList.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\Config\nppPluginList.dll
+notepad++.exe >> C:\Program Files\Notepad++\updater\gup.exe
+notepad++.exe >> C:\Program Files\Notepad++\updater\gup.exe
+notepad++.exe >> C:\Program Files\Notepad++\updater\gup.exe
+notepad++.exe >> C:\Program Files\Notepad++\plugins\Config\nppPluginList.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\mimeTools\mimeTools.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\mimeTools\mimeTools.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\NppConverter\NppConverter.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\NppConverter\NppConverter.dll
+notepad++.exe >> (ReadFile) \\?\C:\Program Files\Notepad++\plugins\mimeTools\mimeTools.dll
+notepad++.exe >> (ReadFile) \\?\C:\Program Files\Notepad++\plugins\NppConverter\NppConverter.dll
+notepad++.exe >> (ReadFile) \\?\C:\Program Files\Notepad++\plugins\NppExport\NppExport.dll
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\wncry_detector.py
+notepad++.exe >> C:\Program Files\Notepad++\plugins\NppExport\NppExport.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\NppExport\NppExport.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\mimeTools\mimeTools.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\NppConverter\NppConverter.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\NppExport\NppExport.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\mimeTools\mimeTools.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\NppConverter\NppConverter.dll
+notepad++.exe >> C:\Program Files\Notepad++\plugins\NppExport\NppExport.dll
+notepad++.exe >> C:\Users\moham\Desktop\wncry_detector.py
+notepad++.exe >> C:\Users\moham\AppData\Local\Microsoft\Windows\Caches\cversions.1.db
+notepad++.exe >> (ReadFile) \\?\C:\Program Files\Notepad++\autoCompletion\python.xml
+notepad++.exe >> C:\Users\moham\AppData\Local\Microsoft\Windows\Caches\{AFBF9F1A-8EE8-4C77-AF34-C647E37CA0D9}.1.ver0x0000000000000086.db
+notepad++.exe >> C:\Users\moham\Desktop\wncry_detector.py\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\wncry_detector.py\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\wncry_detector.py
+notepad++.exe >> C:\Users\moham\Desktop\wncry_detector.py
+notepad++.exe >> C:\Users\moham\Desktop\wncry_detector.py
+notepad++.exe >> C:\Users\moham\Desktop\wncry_detector.py
+notepad++.exe >> C:\Users\moham\Desktop\wncry_detector.py
+notepad++.exe >> C:\Program Files\Notepad++\autoCompletion\python.xml
+notepad++.exe >> C:\Users\moham\Desktop\wncry_detector.py
+notepad++.exe >> (ReadFile) \\?\D:\Scripts\Qt\qml\Custombutton.qml
+notepad++.exe >> (ReadFile) \\?\D:\Scripts\Qt\qml\Alert.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Custombutton.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Custombutton.qml\desktop.ini
+notepad++.exe >> D:\Scripts\Qt\qml\Custombutton.qml\desktop.ini
+notepad++.exe >> D:\Scripts\Qt\qml\Custombutton.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Custombutton.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Custombutton.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Custombutton.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Custombutton.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Alert.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Alert.qml\desktop.ini
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\Logo.svg
+notepad++.exe >> D:\Scripts\Qt\qml\Alert.qml\desktop.ini
+notepad++.exe >> D:\Scripts\Qt\qml\Alert.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Alert.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Alert.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Alert.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Alert.qml
+notepad++.exe >> C:\Users\moham\Desktop\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Logo.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Logo.svg
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\Final.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Final.svg
+notepad++.exe >> C:\Users\moham\Desktop\Final.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Final.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Final.svg
+notepad++.exe >> C:\Users\moham\Desktop\Final.svg
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\Main\GP_GUI\icons_accent\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Final.svg
+notepad++.exe >> C:\Users\moham\Desktop\Final.svg
+notepad++.exe >> C:\Users\moham\Desktop\Final.svg
+notepad++.exe >> C:\Users\moham\Desktop\Final.svg
+notepad++.exe >> C:\Users\moham\Desktop\Main\GP_GUI\icons_accent\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Main\GP_GUI\icons_accent\Logo.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Main\GP_GUI\icons_accent\Logo.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Main\GP_GUI\icons_accent\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Main\GP_GUI\icons_accent\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Main\GP_GUI\icons_accent\Logo.svg
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\Logo_Last.svg
+notepad++.exe >> C:\Users\moham\Desktop\Main\GP_GUI\icons_accent\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Main\GP_GUI\icons_accent\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Main\GP_GUI\icons_accent\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo_Last.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo_Last.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Logo_Last.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Logo_Last.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo_Last.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo_Last.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo_Last.svg
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\AnimatedSvgViewer.qml
+notepad++.exe >> C:\Users\moham\Desktop\Logo_Last.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo_Last.svg
+notepad++.exe >> C:\Users\moham\Desktop\AnimatedSvgViewer.qml
+notepad++.exe >> C:\Users\moham\Desktop\AnimatedSvgViewer.qml\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\AnimatedSvgViewer.qml\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\AnimatedSvgViewer.qml
+notepad++.exe >> C:\Users\moham\Desktop\AnimatedSvgViewer.qml
+notepad++.exe >> C:\Users\moham\Desktop\AnimatedSvgViewer.qml
+notepad++.exe >> C:\Users\moham\Desktop\AnimatedSvgViewer.qml
+notepad++.exe >> C:\Users\moham\Desktop\AnimatedSvgViewer.qml
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\SplashScreenWebView.qml
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\ss.svg
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreenWebView.qml
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreenWebView.qml\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreenWebView.qml\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreenWebView.qml
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreenWebView.qml
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreenWebView.qml
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreenWebView.qml
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreenWebView.qml
+notepad++.exe >> C:\Users\moham\Desktop\ss.svg
+notepad++.exe >> C:\Users\moham\Desktop\ss.svg\desktop.ini
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\SplashAnimation.html
+notepad++.exe >> C:\Users\moham\Desktop\ss.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\ss.svg
+notepad++.exe >> C:\Users\moham\Desktop\ss.svg
+notepad++.exe >> C:\Users\moham\Desktop\ss.svg
+notepad++.exe >> C:\Users\moham\Desktop\ss.svg
+notepad++.exe >> C:\Users\moham\Desktop\ss.svg
+notepad++.exe >> C:\Users\moham\Desktop\ss.svg
+notepad++.exe >> C:\Users\moham\Desktop\SplashAnimation.html
+notepad++.exe >> C:\Users\moham\Desktop\SplashAnimation.html\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\SplashAnimation.html\desktop.ini
+notepad++.exe >> (ReadFile) \\?\D:\Scripts\Qt\icons_accent\SplashScreen.svg
+notepad++.exe >> C:\Users\moham\Desktop\SplashAnimation.html
+notepad++.exe >> C:\Users\moham\Desktop\SplashAnimation.html
+notepad++.exe >> C:\Users\moham\Desktop\SplashAnimation.html
+notepad++.exe >> C:\Users\moham\Desktop\SplashAnimation.html
+notepad++.exe >> C:\Users\moham\Desktop\SplashAnimation.html
+notepad++.exe >> C:\Users\moham\Desktop\SplashAnimation.html
+notepad++.exe >> D:\Scripts\Qt\icons_accent\SplashScreen.svg
+notepad++.exe >> D:\Scripts\Qt\icons_accent\SplashScreen.svg\desktop.ini
+notepad++.exe >> D:\Scripts\Qt\icons_accent\SplashScreen.svg\desktop.ini
+notepad++.exe >> D:\Scripts\Qt\icons_accent\SplashScreen.svg
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\smaller_svg.svg
+notepad++.exe >> D:\Scripts\Qt\icons_accent\SplashScreen.svg
+notepad++.exe >> D:\Scripts\Qt\icons_accent\SplashScreen.svg
+notepad++.exe >> D:\Scripts\Qt\icons_accent\SplashScreen.svg
+notepad++.exe >> D:\Scripts\Qt\icons_accent\SplashScreen.svg
+notepad++.exe >> D:\Scripts\Qt\icons_accent\SplashScreen.svg
+notepad++.exe >> C:\Users\moham\Desktop\smaller_svg.svg
+notepad++.exe >> C:\Users\moham\Desktop\smaller_svg.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\smaller_svg.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\smaller_svg.svg
+notepad++.exe >> C:\Users\moham\Desktop\smaller_svg.svg
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\SplashScreen.svg
+notepad++.exe >> C:\Users\moham\Desktop\smaller_svg.svg
+notepad++.exe >> C:\Users\moham\Desktop\smaller_svg.svg
+notepad++.exe >> C:\Users\moham\Desktop\smaller_svg.svg
+notepad++.exe >> C:\Users\moham\Desktop\smaller_svg.svg
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreen.svg
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreen.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreen.svg\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreen.svg
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreen.svg
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreen.svg
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\Proj\main.py
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreen.svg
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreen.svg
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreen.svg
+notepad++.exe >> C:\Users\moham\Desktop\Proj\main.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\main.py\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Proj\main.py\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Proj\main.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\main.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\main.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\main.py
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\Proj\SettingsManager.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\main.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\SettingsManager.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\SettingsManager.py\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Proj\SettingsManager.py\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Proj\SettingsManager.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\SettingsManager.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\SettingsManager.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\SettingsManager.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\SettingsManager.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\qml\AboutScreen.qml
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\Proj\qml\AboutScreen.qml
+notepad++.exe >> (ReadFile) \\?\C:\Windows\System32\AntiMalware\weights.txt
+notepad++.exe >> C:\Users\moham\Desktop\Proj\qml\AboutScreen.qml\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Proj\qml\AboutScreen.qml\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Proj\qml\AboutScreen.qml
+notepad++.exe >> C:\Users\moham\Desktop\Proj\qml\AboutScreen.qml
+notepad++.exe >> C:\Users\moham\Desktop\Proj\qml\AboutScreen.qml
+notepad++.exe >> C:\Users\moham\Desktop\Proj\qml\AboutScreen.qml
+notepad++.exe >> C:\Users\moham\Desktop\Proj\qml\AboutScreen.qml
+notepad++.exe >> C:\Windows\System32\AntiMalware\weights.txt
+notepad++.exe >> C:\Windows\System32\AntiMalware\weights.txt\desktop.ini
+notepad++.exe >> C:\Windows\System32\AntiMalware\weights.txt\desktop.ini
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\Proj\dist\MonitoringService\settings.json
+notepad++.exe >> C:\Windows\System32\AntiMalware\weights.txt
+notepad++.exe >> C:\Windows\System32\AntiMalware\weights.txt
+notepad++.exe >> C:\Windows\System32\AntiMalware\weights.txt
+notepad++.exe >> C:\Windows\System32\AntiMalware\weights.txt
+notepad++.exe >> C:\Windows\System32\AntiMalware\weights.txt
+notepad++.exe >> C:\Users\moham\Desktop\Proj\dist\MonitoringService\settings.json
+notepad++.exe >> C:\Users\moham\Desktop\Proj\dist\MonitoringService\settings.json\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Proj\dist\MonitoringService\settings.json\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Proj\dist\MonitoringService\settings.json
+notepad++.exe >> C:\Users\moham\Desktop\Proj\dist\MonitoringService\settings.json
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\AboutScreen.qml
+notepad++.exe >> C:\Users\moham\Desktop\Proj\dist\MonitoringService\settings.json
+notepad++.exe >> C:\Users\moham\Desktop\Proj\dist\MonitoringService\settings.json
+notepad++.exe >> C:\Users\moham\Desktop\Proj\dist\MonitoringService\settings.json
+notepad++.exe >> C:\Users\moham\Desktop\AboutScreen.qml
+notepad++.exe >> C:\Users\moham\Desktop\AboutScreen.qml\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\AboutScreen.qml\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\AboutScreen.qml
+notepad++.exe >> C:\Users\moham\Desktop\AboutScreen.qml
+notepad++.exe >> C:\Users\moham\Desktop\AboutScreen.qml
+notepad++.exe >> C:\Users\moham\Desktop\AboutScreen.qml
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\eeee\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\AboutScreen.qml
+notepad++.exe >> C:\Users\moham\Desktop\eeee\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\eeee\MonitoringService.py\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\eeee\MonitoringService.py\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\eeee\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\eeee\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\eeee\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\eeee\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\eeee\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\MonitoringService.py
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\Proj\MonitoringService.py
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Downloads\jinzo-ee1.vpnjantit-tcp-2501 (2).ovpn
+notepad++.exe >> C:\Users\moham\Desktop\Proj\MonitoringService.py\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Proj\MonitoringService.py\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\Proj\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Downloads\jinzo-ee1.vpnjantit-tcp-2501 (2).ovpn
+notepad++.exe >> C:\Users\moham\Downloads\jinzo-ee1.vpnjantit-tcp-2501 (2).ovpn\desktop.ini
+notepad++.exe >> C:\Users\moham\Downloads\jinzo-ee1.vpnjantit-tcp-2501 (2).ovpn\desktop.ini
+notepad++.exe >> (ReadFile) \\?\C:\Windows\System32\AntiMalware\Date.txt
+notepad++.exe >> C:\Users\moham\Downloads\jinzo-ee1.vpnjantit-tcp-2501 (2).ovpn
+notepad++.exe >> C:\Users\moham\Downloads\jinzo-ee1.vpnjantit-tcp-2501 (2).ovpn
+notepad++.exe >> C:\Users\moham\Downloads\jinzo-ee1.vpnjantit-tcp-2501 (2).ovpn
+notepad++.exe >> C:\Users\moham\Downloads\jinzo-ee1.vpnjantit-tcp-2501 (2).ovpn
+notepad++.exe >> C:\Users\moham\Downloads\jinzo-ee1.vpnjantit-tcp-2501 (2).ovpn
+notepad++.exe >> C:\Windows\System32\AntiMalware\Date.txt
+notepad++.exe >> C:\Windows\System32\AntiMalware\Date.txt\desktop.ini
+notepad++.exe >> C:\Windows\System32\AntiMalware\Date.txt\desktop.ini
+notepad++.exe >> C:\Windows\System32\AntiMalware\Date.txt
+notepad++.exe >> C:\Windows\System32\AntiMalware\Date.txt
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\AnyDesk.py
+notepad++.exe >> C:\Windows\System32\AntiMalware\Date.txt
+notepad++.exe >> C:\Windows\System32\AntiMalware\Date.txt
+notepad++.exe >> C:\Windows\System32\AntiMalware\Date.txt
+notepad++.exe >> C:\Users\moham\Desktop\AnyDesk.py
+notepad++.exe >> C:\Users\moham\Desktop\AnyDesk.py\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\AnyDesk.py\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\AnyDesk.py
+notepad++.exe >> C:\Users\moham\Desktop\AnyDesk.py
+notepad++.exe >> C:\Users\moham\Desktop\AnyDesk.py
+notepad++.exe >> C:\Users\moham\Desktop\AnyDesk.py
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\Desktop\input.txt
+notepad++.exe >> C:\Users\moham\Desktop\AnyDesk.py
+notepad++.exe >> C:\Users\moham\Desktop\input.txt
+notepad++.exe >> C:\Users\moham\Desktop\input.txt\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\input.txt\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\input.txt
+notepad++.exe >> C:\Users\moham\Desktop\input.txt
+notepad++.exe >> C:\Users\moham\Desktop\input.txt
+notepad++.exe >> C:\Users\moham\Desktop\input.txt
+notepad++.exe >> C:\Users\moham\Desktop\input.txt
+notepad++.exe >> C:\Program Files\Notepad++\autoCompletion\normal.xml
+notepad++.exe >> C:\Users\moham\Desktop\input.txt
+notepad++.exe >> C:\WINDOWS\SysWOW64\propsys.dll
+notepad++.exe >> C:\WINDOWS\system32\propsys.dll
+notepad++.exe >> C:\WINDOWS\SysWOW64\propsys.dll
+notepad++.exe >> C:\WINDOWS\system32\propsys.dll
+notepad++.exe >> C:\Users\moham\Desktop\input.txt
+notepad++.exe >> C:\Users\moham\Desktop\input.txt\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\input.txt\desktop.ini
+notepad++.exe >> C:\Users\moham\Desktop\input.txt
+notepad++.exe >> C:\Users\moham\Desktop\input.txt
+notepad++.exe >> C:\Users\moham\Desktop\AnyDesk.py
+notepad++.exe >> C:\Windows\System32\AntiMalware\Date.txt
+notepad++.exe >> C:\Users\moham\Downloads\jinzo-ee1.vpnjantit-tcp-2501 (2).ovpn
+notepad++.exe >> C:\Users\moham\Desktop\Proj\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\eeee\MonitoringService.py
+notepad++.exe >> C:\Users\moham\Desktop\AboutScreen.qml
+notepad++.exe >> C:\Users\moham\Desktop\Proj\dist\MonitoringService\settings.json
+notepad++.exe >> C:\Windows\System32\AntiMalware\weights.txt
+notepad++.exe >> C:\Users\moham\Desktop\Proj\qml\AboutScreen.qml
+notepad++.exe >> C:\Users\moham\Desktop\Proj\SettingsManager.py
+notepad++.exe >> C:\Users\moham\Desktop\Proj\main.py
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreen.svg
+notepad++.exe >> C:\Users\moham\Desktop\smaller_svg.svg
+notepad++.exe >> D:\Scripts\Qt\icons_accent\SplashScreen.svg
+notepad++.exe >> C:\Users\moham\Desktop\SplashAnimation.html
+notepad++.exe >> C:\Users\moham\Desktop\ss.svg
+notepad++.exe >> C:\Users\moham\Desktop\SplashScreenWebView.qml
+notepad++.exe >> C:\Users\moham\Desktop\AnimatedSvgViewer.qml
+notepad++.exe >> C:\Users\moham\Desktop\Logo_Last.svg
+notepad++.exe >> C:\Users\moham\Desktop\Main\GP_GUI\icons_accent\Logo.svg
+notepad++.exe >> C:\Users\moham\Desktop\Final.svg
+notepad++.exe >> C:\Users\moham\Desktop\Logo.svg
+notepad++.exe >> D:\Scripts\Qt\qml\Alert.qml
+notepad++.exe >> D:\Scripts\Qt\qml\Custombutton.qml
+notepad++.exe >> C:\Users\moham\Desktop\wncry_detector.py
+notepad++.exe >> C:\Users\moham\Desktop\input.txt
+notepad++.exe >> C:\Program Files\Notepad++\autoCompletion\python.xml
+notepad++.exe >> C:\Users\moham\Desktop\wncry_detector.py
+notepad++.exe >> new 1
+notepad++.exe >> new 1
+notepad++.exe >> (ReadFile) \\?\C:\Users\moham\AppData\Roaming\Notepad++\session.xml

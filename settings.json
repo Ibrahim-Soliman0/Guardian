@@ -1,0 +1,10 @@
+{
+    "Version": 0,
+    "isMonitoringActive": 0,
+    "isActiveAutoStart": 0,
+    "isActiveMinimizedInSystemTray": 0,
+    "MaximumLogFileSize": 11,
+    "RansomInterval": 26,
+    "InfoInterval": 21,
+    "AutoUpdate": 0
+}
